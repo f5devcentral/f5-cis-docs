@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  extendedSpec:
+    baseRouteSpec:
+      tlsCipher:
+         tlsVersion: '1.2'
+         ciphers: DEFAULT
+         cipherGroup: /Common/f5-default
+    extendedRouteSpec:
+kind: ConfigMap
+metadata:
+  labels:
+    f5nr: "true"
+  name: 
+  namespace: 

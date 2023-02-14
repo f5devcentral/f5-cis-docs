@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+  extendedSpec:
+    baseRouteSpec:
+      tlsCipher:
+        tlsVersion:
+        ciphers:
+        cipherGroup:
+      defaultTLS:
+        clientSSL:
+        serverSSL:
+        reference:
+      defaultRouteGroup:
+        vserverAddr:
+        vserverName:
+kind: ConfigMap
+metadata:
+  labels:
+    f5nr: "true"
+  name:
+  namespace:
