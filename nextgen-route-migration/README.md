@@ -18,9 +18,9 @@ Following CLI parameters can be provided to the nextGen Route migration tool.
 
 | Parameter        | Required | Description                                                               | Default  | Examples                    |
 |------------------|----------|---------------------------------------------------------------------------|----------|-----------------------------|
-| -f, --cis_file   | Required | The path of the CIS deployment file                                       | N/A      | cis-deploy.yaml             |
-| -d, --cis_name   | Required | Name of CIS deployment                                                    | N/A      | kube-system/test-cis-deploy |
-| -cm, --cm_file   | Optional | The path of the AS3 override configmap file                                       | N/A      | as3-cm.yaml                 |
+| -f, --cis-file   | Required | The path of the CIS deployment file                                       | N/A      | cis-deploy.yaml             |
+| -d, --cis-name   | Required | Name of CIS deployment                                                    | N/A      | kube-system/test-cis-deploy |
+| -cm, --cm-file   | Optional | The path of the AS3 override configmap file                                       | N/A      | as3-cm.yaml                 |
 | -o, --output     | Optional | Path of the output directory                                              | output   |                             |
 | -log, --loglevel | Optional | Log level for the migration tool                                          | INFO     | DEBUG, ERROR, WARNING       |
 
@@ -37,19 +37,19 @@ python main.py
 
 If you wish to provide the cis deployment file then run the following command (with --cis_file or -f):
 ```
-python main.py --cis_file ~/cis-deploy.yaml
+python main.py --cis-file ~/cis-deploy.yaml
 ```
 or if you wish to provide the cis deployment name then run the following command (with --cis_name or -d):
 ```
-python main.py --cis_name kube-system/cis-deploy
+python main.py --cis-name kube-system/cis-deploy
 ```
-If you wish to provide the as3 Override configmap file then run the following command (with --cm_file or -cm):
+If you wish to provide the as3 Override configmap file then run the following command (with --cm-file or -cm):
 ```
-python main.py --cis_file ~/cis-deploy.yaml --cm_file ~/as3-cm.yaml
+python main.py --cis-file ~/cis-deploy.yaml --cm-file ~/as3-cm.yaml
 ```
 If you wish to store the output yaml files in any other directory then run the following command (with --output or -o):
 ```
-python main.py --cis_file ~/cis-deploy.yaml --output <path to the output directory>
+python main.py --cis-file ~/cis-deploy.yaml --output <path to the output directory>
 ```
 For more details related to the available command line options, run the following command:
 ```
