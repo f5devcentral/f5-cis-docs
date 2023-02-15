@@ -57,7 +57,7 @@ def create_yaml_file(data: dict, dest_path: str):
 
 
 # Get deployment resource using deployment name
-def get_deploy_res_from_deploy(deploy_name: str) -> dict:
+def get_deploy_res_from_deploy(deploy_name: str, kubeconfig="~/.kube/config") -> dict:
     try:
         ns_name = deploy_name.split("/")
         cis_deploy_ns = ns_name[0]
@@ -65,7 +65,7 @@ def get_deploy_res_from_deploy(deploy_name: str) -> dict:
         if len(ns_name) > 1:
             cis_deploy_ns = ns_name[0]
             cis_deploy_name = ns_name[1]
-        cis_deploy_cmd_json = "kubectl -n {} get deploy/{} -o json".format(cis_deploy_ns, cis_deploy_name)
+        cis_deploy_cmd_json = "kubectl --kubeconfig {} -n {} get deploy/{} -o json".format(kubeconfig, cis_deploy_ns, cis_deploy_name)
         cis_deploy_obj = json.loads(subprocess.check_output(cis_deploy_cmd_json, shell=True).decode())
         return cis_deploy_obj
     except Exception as ex:

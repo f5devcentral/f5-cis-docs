@@ -15,9 +15,10 @@ logging.basicConfig(
 def cmd_args_parser() -> dict:
     parser = argparse.ArgumentParser(description="NextGenRoutes migration tool usage options",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("-f", "--cis-file", help="path of the cis deployment file")
-    parser.add_argument("-d", "--cis-name", help="path of the cis deployment name")
-    parser.add_argument("-cm", "--cm-file", help="path of the configmap file")
+    parser.add_argument("-f", "--cis_file", help="path of the cis deployment file")
+    parser.add_argument("-d", "--cis_name", help="path of the cis deployment name")
+    parser.add_argument("-cm", "--cm_file", help="path of the configmap file")
+    parser.add_argument("-k", "--kubeconfig", help="path of the kubeconfig file")
     parser.add_argument("-o", "--output", help="path of the output directory")
     parser.add_argument('-log', '--loglevel', default='INFO',
                         help='log level. Example --loglevel INFO, ERROR, DEBUG, WARNING')
@@ -26,14 +27,17 @@ def cmd_args_parser() -> dict:
     final_values = dict()
     script_dir = pathlib.Path(__file__).parent.resolve()
     if args_dict:
-        if args_dict['cis-file']:
-            final_values['cis-file'] = args_dict['cis-file']
+        if args_dict['cis_file']:
+            final_values['cis_file'] = args_dict['cis_file']
 
-        if args_dict['cis-name']:
-            final_values['cis-name'] = args_dict['cis-name']
+        if args_dict['cis_name']:
+            final_values['cis_name'] = args_dict['cis_name']
 
-        if args_dict['cm-file']:
-            final_values['cm-file'] = args_dict['cm-file']
+        if args_dict['kubeconfig']:
+            final_values['kubeconfig'] = args_dict['kubeconfig']
+
+        if args_dict['cm_file']:
+            final_values['cm_file'] = args_dict['cm_file']
 
         if args_dict['output']:
             final_values['output_dir'] = args_dict['output']
@@ -55,14 +59,14 @@ def cmd_args_parser() -> dict:
 
 # Validate the inputs
 def validate_inputs(cli_args):
-    if 'cis-file' not in cli_args and 'cis-name' not in cli_args:
+    if 'cis_file' not in cli_args and 'cis_name' not in cli_args:
         logging.error("Either provide cis-file (CIS deployment yaml file) or cis-name (name of the CIS deployment in "
                       "the format namespace/deployment-name)")
         exit()
 
     # check cis deployment file exists
-    if 'cis-file' in cli_args and not os.path.isfile(args_values['cis-file']):
-        logging.error('CIS deployment file %s does not exist', args_values['cis-file'])
+    if 'cis_file' in cli_args and not os.path.isfile(args_values['cis_file']):
+        logging.error('CIS deployment file %s does not exist', args_values['cis_file'])
         exit()
 
     # check output directory exists else create
@@ -78,10 +82,13 @@ if __name__ == '__main__':
         validate_inputs(args_values)
         # Read CIS deployment config
         cis_deploy_obj = dict()
-        if 'cis-file' in args_values:
-            cis_deploy_obj = utils.read_yaml(args_values['cis-file'])
-        elif 'cis-name' in args_values:
-            cis_deploy_obj = utils.get_deploy_res_from_deploy(args_values['cis-name'])
+        if 'cis_file' in args_values:
+            cis_deploy_obj = utils.read_yaml(args_values['cis_file'])
+        elif 'cis_name' in args_values:
+            if 'kubeconfig' in args_values:
+                cis_deploy_obj = utils.get_deploy_res_from_deploy(args_values['cis_name'],args_values['kubeconfig'])
+            else:
+                cis_deploy_obj = utils.get_deploy_res_from_deploy(args_values['cis_name'])
         else:
             logging.error("Invalid input provided")
             exit()
@@ -97,8 +104,8 @@ if __name__ == '__main__':
         # Create policy CR if override-as3-configmap is used or user wants to use it
         # Read override-configmap
         policy_cr = ""
-        if 'cm-file' in args_values:
-            cm_obj = utils.read_yaml(args_values['cm-file'])
+        if 'cm_file' in args_values:
+            cm_obj = utils.read_yaml(args_values['cm_file'])
             policy = utils.get_policy_from_cm_obj(cm_obj=cm_obj)
             utils.generate_policy_yaml(policy, dest_path=args_values['output_dir'] + "/policy.yaml")
             policy_cr = policy['metadata']['namespace'] + '/' + policy['metadata']['name']
