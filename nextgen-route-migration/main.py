@@ -101,6 +101,11 @@ if __name__ == '__main__':
             exit()
         cis_args_dict = utils.convert_container_args_to_dict(cis_args)
 
+        #  validate cis args
+        if constants.ROUTE_VS_ADDRESS not in cis_args_dict:
+            logging.error("missing {} in legacy CIS deployment args ".format(constants.ROUTE_VS_ADDRESS))
+            exit()
+
         # Create policy CR if override-as3-configmap is used or user wants to use it
         # Read override-configmap
         policy_cr = ""
