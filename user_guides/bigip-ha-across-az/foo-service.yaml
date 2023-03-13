@@ -1,0 +1,22 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: svc-1
+  name: svc-1
+spec:
+  ports:
+  - name: svc-1-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: svc-1
+  sessionAffinity: None
+  type: NodePort
+
