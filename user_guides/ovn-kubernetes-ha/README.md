@@ -1,8 +1,7 @@
 # OpenShift OVN-Kubernetes using F5 BIG-IP HA with NO Tunnels
 
-This document demonstrates how to use **OVN-Kubernetes with F5 BIG-IP HA Routes** to Ingress traffic without using an Overlay. Using OVN-Kubernetes with F5 BIG-IP Routes removes the complexity of creating VXLAN tunnels or using Calico. This document demonstrates **High Availability (HA) BIG-IP's working with OVN-Kubernetes**. Diagram below demonstrates a OpenShift 4.11 Cluster with three masters and three worker nodes. The three applications; **tea,coffee and mocha** are deployed in the **cafe** namespace. As you can see from the diagram below the **cafe** namespace requires an annotation for the BIG-IP self-ip. 
-
-![architecture](https://github.com/f5devcentral/f5-cis-docs/blob/main/user_guides/ovn-kubernetes-ha/diagram/2022-10-18_14-57-50.png)
+This document demonstrates how to use **OVN-Kubernetes with F5 BIG-IP HA Routes** to Ingress traffic without using an Overlay. Using OVN-Kubernetes with F5 BIG-IP Routes removes the complexity of creating VXLAN tunnels or using Calico. This document demonstrates **High Availability (HA) BIG-IP's working with OVN-Kubernetes**. Diagram below demonstrates a OpenShift Cluster with three masters and three worker nodes. The three applications; **tea,coffee and mocha** are deployed in the **cafe** namespace.
+![architecture](https://github.com/f5devcentral/f5-cis-docs/blob/main/user_guides/ovn-kubernetes-ha/diagram/ovn-k8s-ha.png)
 
 Demo on YouTube [video](https://youtu.be/Hzz_UFzU7UA)
 
@@ -10,25 +9,7 @@ Demo on YouTube [video](https://youtu.be/Hzz_UFzU7UA)
 
 Deploy OpenShift Cluster with **networktype** as **OVNKubernetes**. Change the default to **OVNKubernetes** in the install-config.yaml before creating the cluster
 
-### Step 2: Verify gateway mode set to shared
-
-```
-# oc get nodes
-NAME                        STATUS   ROLES    AGE   VERSION
-ocp-pm-trw88-master-0       Ready    master   68m   v1.24.0+3882f8f
-ocp-pm-trw88-master-1       Ready    master   67m   v1.24.0+3882f8f
-ocp-pm-trw88-master-2       Ready    master   67m   v1.24.0+3882f8f
-ocp-pm-trw88-worker-d6zsg   Ready    worker   50m   v1.24.0+3882f8f
-ocp-pm-trw88-worker-k7lsd   Ready    worker   55m   v1.24.0+3882f8f
-ocp-pm-trw88-worker-vdtmb   Ready    worker   55m   v1.24.0+3882f8f
-```
-
-```
-# oc logs -f ovnkube-node-2bcx7 ovnkube-node -n openshift-ovn-kubernetes|grep "gateway_mode_flags"
-+ gateway_mode_flags='--gateway-mode shared --gateway-interface br-ex'
-```
-
-### Step 3: Configure BIG-IP Routes
+### Step 2: Configure BIG-IP Routes
 
 Configure static routes in BIG-IP with node subnets assigned for the three worker nodes in the OpenShift cluster. Get the node subnet assigned and host address
 
@@ -62,25 +43,9 @@ View static routes created on BIG-IP
 
 **Note:** Manually sync the BIG-IP so the routes are deployed on the standby
 
-### Step 4: Configure egress from OpenShift cluster to BIG-IP
-
-Configure egress from OpenShift cluster to BIG-IP using k8s.ovn.org/routing-external-gws annotation on namespace where the application is deployed as shown in the diagram above. Use the BIG-IP floating self-IP address for the **routing-external-gws: 10.192.125.62**
-
-```
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    k8s.ovn.org/routing-external-gws: 10.192.125.62 ##BIG-IP floating self-interface address rotatable to the OpenShift nodes
-  labels:
-    kubernetes.io/metadata.name: default
-  name: cafe
-```
-routing-external-gws [repo](https://github.com/f5devcentral/f5-cis-docs/blob/main/user_guides/ovn-kubernetes-ha/demo-app/cafe/name-cafe.yaml)
-
 **Setup complete!** Deploy CIS and create OpenShift Routes
 
-### Step 5: Deploy CIS for each BIG-IP
+### Step 3: Deploy CIS for each BIG-IP
 
 F5 Controller Ingress Services (CIS) called **Next Generation Routes Controller**. Next Generation Routes Controller extended F5 CIS to use multiple Virtual IP addresses. Before F5 CIS could only manage one Virtual IP address per CIS instance.
 
@@ -154,7 +119,7 @@ k8s-bigip-ctlr-01-deployment-7cc8b7cf94-2csz7   1/1     Running   0          16s
 k8s-bigip-ctlr-02-deployment-5c8d8c4676-hjwpr   1/1     Running   0          16s
 ```
 
-### Step 6: Deploy Global ConfigMap
+### Step 4: Deploy Global ConfigMap
 
 Using Global ConfigMap
 
@@ -185,7 +150,7 @@ oc create -f global-cm.yaml
 ```
 ConfigMap [repo](https://github.com/f5devcentral/f5-cis-docs/blob/main/user_guides/ovn-kubernetes-ha/next-gen-route/route/global-cm.yaml)
 
-### Step 6 Creating OpenShift Routes for cafe.example.com
+### Step 5 Creating OpenShift Routes for cafe.example.com
 
 User-case for the OpenShift Routes:
 
@@ -217,3 +182,6 @@ Validate OpenShift Routes policies on the BIG-IP
 Validate OpenShift Routes policies by connecting to the Public IP
 
 ![traffic](https://github.com/f5devcentral/f5-cis-docs/blob/main/user_guides/ovn-kubernetes-ha/diagram/2022-10-12_13-46-30.png)
+
+**Note**:
+* Configuration listed above is validated on OCP 4.11 and 4.12 versions. 
