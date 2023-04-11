@@ -62,9 +62,11 @@ def get_deploy_res_from_deploy(deploy_name: str, kubeconfig="~/.kube/config") ->
         ns_name = deploy_name.split("/")
         cis_deploy_ns = ns_name[0]
         cis_deploy_name = ""
-        if len(ns_name) > 1:
+        if len(ns_name) == 2:
             cis_deploy_ns = ns_name[0]
             cis_deploy_name = ns_name[1]
+        else:
+            raise Exception("CIS deployment should be in the format namespace/deployment-name")
         cis_deploy_cmd_json = "kubectl --kubeconfig {} -n {} get deploy/{} -o json".format(kubeconfig, cis_deploy_ns, cis_deploy_name)
         cis_deploy_obj = json.loads(subprocess.check_output(cis_deploy_cmd_json, shell=True).decode())
         return cis_deploy_obj
@@ -78,6 +80,11 @@ def prepare_cis_config_for_nextgen_routes(config: dict, deploy_obj: dict) -> dic
     if not deploy_obj or not config or len(config) == 0:
         return dict()
     try:
+        meta_keys = ["resourceVersion", "uid", "creationTimestamp", "generation"]
+        if "metadata" in deploy_obj:
+            for k in meta_keys:
+                if k in deploy_obj["metadata"]:
+                    del deploy_obj["metadata"][k]
         # Remove legacy route specific parameters
         keys = ["manage-routes", "custom-client-ssl", "custom-server-ssl", "route-http-vserver", "route-https-vserver",
                 "route-vserver-addr", "default-client-ssl", "default-server-ssl", "tls-version", "cipher-group", "ciphers"]

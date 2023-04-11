@@ -28,37 +28,42 @@ Following CLI parameters can be provided to the nextGen Route migration tool.
 
 You may either provide the CIS deployment yaml configuration or CIS deployment name (namespace/deployment-name).<br/>
 **_NOTE:_** _If deployment name is provided then this tool will need the kube-config file to access the CIS deployment. 
-Please place the kubeconfig in the default location i.e. ~/.kube/config or Use the -k or --kubeconfig parameter to specify kubeconfig loation.
+Please place the kubeconfig in the default location i.e. ~/.kube/config or Use the -k or --kubeconfig parameter to specify kubeconfig location._
 
 ### Running migration script
-Simply run the following command to run the script.
+* Simply run the following command to run the script _(Note: Follow the examples with CLI parameters)_.
 ```
 python main.py
 ```
-**_NOTE:_** _Default output directory is output/_
 
-If you wish to provide the cis deployment file then run the following command (with --cis_file or -f):
+* If you wish to provide the cis deployment file then run the following command (with --cis_file or -f):
 ```
 python main.py --cis_file ~/cis-deploy.yaml
 ```
-or if you wish to provide the cis deployment name then run the following command (with --cis_name or -d):
+**_NOTE:_** _Default output directory is output/ , use -o or --output to specify custom output directory path_
+
+* If you wish to provide the cis deployment name which is running on the openshift cluster then run the following command (with --cis_name or -d):
 ```
 python main.py --cis_name kube-system/cis-deploy
 ```
-or if you wish to provide the cis deployment name along with kubeconfig location then run the following command (with --cis_name or -d and --kubeconfig or -k):
+**_NOTE:_** _Default path considered for kube-config file is ~/.kube/config_
+
+* If you wish to provide the cis deployment name along with kubeconfig location then run the following command (with --cis_name or -d and --kubeconfig or -k):
 ```
 python main.py --cis_name kube-system/cis-deploy --kubeconfig /home/user/.kube/config
 ```
 
-If you wish to provide the as3 Override configmap file then run the following command (with --cm_file or -cm):
+* If you wish to provide the as3 Override configmap file then run the following command (with --cm_file or -cm):
 ```
 python main.py --cis_file ~/cis-deploy.yaml --cm_file ~/as3-cm.yaml
 ```
-If you wish to store the output yaml files in any other directory then run the following command (with --output or -o):
+**_NOTE:_** _Policy CR would be generated with namespace same as the AS3 configmap and it would be referenced in the global extended configmap_
+
+* If you wish to store the output yaml files in any other directory then run the following command (with --output or -o):
 ```
 python main.py --cis_file ~/cis-deploy.yaml --output <path to the output directory>
 ```
-For more details related to the available command line options, run the following command:
+* For more details related to the available command line options, run the following command:
 ```
 python main.py -h
 ```

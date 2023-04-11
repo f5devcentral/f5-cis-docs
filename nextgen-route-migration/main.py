@@ -125,10 +125,14 @@ if __name__ == '__main__':
         utils.prepare_cis_config_for_nextgen_routes(cis_args_dict, cis_deploy_obj)
         utils.generate_cis_deployment_yaml(cis_deploy_obj, args_values['output_dir']+"/"+ constants.CIS_DEPLOY_FILE)
 
-        print("Successfully generated the configmap and CIS deployment file in the following directory: "
+        print("Successfully generated the configmap and CIS deployment file in the following directory: \n\t"
               "{}".format(args_values['output_dir']))
-        print("Apply the generated configmap and CIS deployment using the following command:")
-        print("kubectl apply -f {}".format(args_values['output_dir']))
+        print("Extended configmap is generated with namespace same as the CIS deployment.")
+        print("NOTE: Make sure this namespace is watched by CIS. If not then modify the namespace field \n"
+              "      in the generated extended configmap as well as the CIS argument --route-spec-configmap \n"
+              "      with the correct namespace.\n")
+        print("Apply the generated configmap and CIS deployment using the following command:\n")
+        print("\tkubectl apply -f {}".format(args_values['output_dir']))
 
     except Exception as ex:
         logging.error(ex)
