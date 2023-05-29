@@ -29,7 +29,12 @@ bigip2
 
 ### Deploy latest supported CRD schema for CIS
 
-`kubectl apply -f https://raw.githubusercontent.com/F5Networks/k8s-bigip-ctlr/master/docs/config_examples/customResourceDefinitions/customresourcedefinitions.yml`
+```sh
+export CIS_VERSION=<cis-version>
+# For example
+# export CIS_VERSION=v2.12.0
+kubectl create -f https://raw.githubusercontent.com/F5Networks/k8s-bigip-ctlr/${CIS_VERSION}/docs/config_examples/customResourceDefinitions/customresourcedefinitions.yml
+```
 
 ### Deploy virtualserver 
 

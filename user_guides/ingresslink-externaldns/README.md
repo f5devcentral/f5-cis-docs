@@ -64,9 +64,12 @@ Create a Service Account, Cluster Role and Cluster Role Binding
     
 Create CRD schema
 
-    kubectl create -f customresourcedefinition.yaml
-
-cis-crd-schema [repo](https://github.com/f5devcentral/f5-cis-docs/blob/main/user_guides/ingresslink-externaldns/cis/cis-crd-schema/customresourcedefinitions.yml)
+```sh
+export CIS_VERSION=<cis-version>
+# For example
+# export CIS_VERSION=v2.12.0
+kubectl create -f https://raw.githubusercontent.com/F5Networks/k8s-bigip-ctlr/${CIS_VERSION}/docs/config_examples/customResourceDefinitions/customresourcedefinitions.yml
+```
 
 Update the bigip address, partition and other details(image, imagePullSecrets, etc) in CIS deployment file and Install CIS Controller in ClusterIP mode as follows:
 
