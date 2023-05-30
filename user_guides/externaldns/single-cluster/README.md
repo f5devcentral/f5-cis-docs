@@ -98,8 +98,17 @@ Create the mysite and myapp virtualservers CRDs
 ```
 kubectl create -f vs-myapp.yaml
 kubectl create -f vs-mysite.yaml
-kubectl create -f customresourcedefinitions.yml
 ```
+
+Install CRD Schema 
+
+```sh
+export CIS_VERSION=<cis-version>
+# For example
+# export CIS_VERSION=v2.12.0
+kubectl create -f https://raw.githubusercontent.com/F5Networks/k8s-bigip-ctlr/${CIS_VERSION}/docs/config_examples/customResourceDefinitions/customresourcedefinitions.yml
+```
+
 crd-resources [repo](https://github.com/f5devcentral/f5-cis-docs/tree/main/user_guides/externaldns/single-cluster/crd-example)
 
 Validate both **virtualservers** crd's are created
