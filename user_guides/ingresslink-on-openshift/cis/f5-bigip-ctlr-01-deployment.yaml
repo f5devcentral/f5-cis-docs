@@ -19,6 +19,16 @@ spec:
       containers:
         - name: cntr-ingress-svcs
           image: registry.connect.redhat.com/f5networks/cntr-ingress-svcs:latest
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 3000
+            fsGroup: 2000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
           env:
             - name: BIGIP_USERNAME
               valueFrom:
