@@ -10,6 +10,7 @@ Demo on YouTube [video](https://youtu.be/Hzz_UFzU7UA)
 Deploy OpenShift Cluster with **networktype** as **OVNKubernetes**. Change the default to **OVNKubernetes** in the install-config.yaml before creating the cluster
 
 ### Step 2: Configure BIG-IP Routes
+`Note:` Starting with CIS 2.13 version, configuration of static routes is automated by CIS.To enable static routing mode with ovn-kubernetes CNI, configure --static-routing-mode=true and --orchestration-cni=ovn-k8s in CIS deployment args.For more details, refer [Static-routing](https://github.com/F5Networks/k8s-bigip-ctlr/tree/master/docs/config_examples/StaticRoute)
 
 Configure static routes in BIG-IP with node subnets assigned for the three worker nodes in the OpenShift cluster. Get the node subnet assigned and host address
 
