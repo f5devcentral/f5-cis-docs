@@ -1,5 +1,5 @@
 # default values
-GLOBAL_ECM_NAME = "global-spec-config"
+GLOBAL_ECM_NAME = "extended-spec-config"
 BASE_ROUT_SPEC_TEMPLATE = "/templates/base_route_group_cm.yaml"
 POLICY_TEMPLATE = "/templates/policy.yaml"
 DEFAULT_OUTPUT_DIR = "output"

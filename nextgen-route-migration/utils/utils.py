@@ -93,7 +93,7 @@ def prepare_cis_config_for_nextgen_routes(config: dict, deploy_obj: dict) -> dic
                 del config[k]
         # Add nextGenRoute specific parameters
         config["controller-mode"] = "openshift"
-        config["route-spec-configmap"] = "kube-system/global-spec-config"
+        config["extended-spec-configmap"] = "kube-system/extended-spec-config"
         # Update deployment obj with the new config parameters
         final_config_args = list()
         for k, v in config.items():

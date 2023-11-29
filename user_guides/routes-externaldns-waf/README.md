@@ -11,11 +11,11 @@ In this example we are using multiple hosts **cafeone** and **cafetwo** with thr
 
 ### Step 1: Deploy CIS
 
-Currently OpenShift Route API using HAproxy which can only support one **Public IP**, **Virtual Server** per BIG-IP. Routes uses HOST Header Load balancing to determine the backend application. CIS can resolve this issue by using a Global ConfigMap to specify global objects like IPs, Policies etc. This is similar to how Gateway API will work. The Global ConfigMap can be applied in different namespace than the Routes
+Currently OpenShift Route API using HAproxy which can only support one **Public IP**, **Virtual Server** per BIG-IP. Routes uses HOST Header Load balancing to determine the backend application. CIS can resolve this issue by using a extended ConfigMap to specify global objects like IPs, Policies etc. This is similar to how Gateway API will work. The Global ConfigMap can be applied in different namespace than the Routes
 
 Add the following parameters to the CIS deployment
 
-* Global ConfigMap info is passed to CIS with argument --route-spec-configmap="namespace/configmap-name"
+* Extended ConfigMap info is passed to CIS with argument --extended-spec-configmap="namespace/configmap-name"
 * Controller mode should be set to openshift to enable multiple VIP support(--controller-mode="openshift")
 * Using AS3 API to post ExternalDNS configuration --cccl-gtm-agent=false
 * Using OVN Kubernetes with static routes. No CNI configured
@@ -35,7 +35,7 @@ args: [
     "--pool-member-type=cluster",
     "--log-level=DEBUG",
     "--insecure=true",
-    "--route-spec-configmap=default/global-cm",
+    "--extended-spec-configmap=default/extended-cm",
     "--controller-mode=openshift",
     "--as3-validation=true",
     "--log-as3-response=true",
@@ -52,12 +52,12 @@ oc create -f f5-bigip-ctlr-deployment.yaml
 
 CIS [repo](https://github.com/f5devcentral/f5-cis-docs/tree/main/user_guides/routes-externaldns-waf/cis)
 
-### Step 2: Deploy Global ConfigMap
+### Step 2: Deploy extended ConfigMap
 
-Using Global ConfigMap
+Using extended ConfigMap
 
-* Global ConfigMap provides control to the admin to create and maintain the resource configuration centrally like Public IPs, Policies, Certificates etc
-* RBAC can be used to restrict modification of global ConfigMap by users with tenant level access
+* Extended ConfigMap provides control to the admin to create and maintain the resource configuration centrally like Public IPs, Policies, Certificates etc
+* RBAC can be used to restrict modification of extended ConfigMap by users with tenant level access
 
 * namespace: cafeone, vserverAddr: **10.192.125.65**
 * namespace: cafetwo, vserverAddr: **10.192.125.66**
@@ -66,7 +66,7 @@ Using Global ConfigMap
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: global-cm
+  name: extended-cm
   namespace: default
   labels:
     f5nr: "true"
@@ -85,7 +85,7 @@ data:
       policyCR: default/policy-cafe
 ```
 
-Deploy global ConfigMap
+Deploy extended ConfigMap
 
 ```
 oc create -f global-cm.yaml
@@ -160,15 +160,15 @@ Validate Wide-IPs on the BIG-IP
 
 ### Step 4: Enable WAF Protection for the OpenShift Cluster
 
-Global ConfigMap allows for Policies to be associated to the routes. In my example both hosts **cafeone** and **cafetwo**  are using the same WAF policies. CIS uses AS3 simply references and existing policy on BIG-IP. Logging of all request is also enabled. The PolicyCRD provides flexibility of adding multiple mandatory configures requested on BIG-IP that not exposed by OpenShift Routes API or annotations 
+Extended ConfigMap allows for Policies to be associated to the routes. In my example both hosts **cafeone** and **cafetwo**  are using the same WAF policies. CIS uses AS3 simply references and existing policy on BIG-IP. Logging of all request is also enabled. The PolicyCRD provides flexibility of adding multiple mandatory configures requested on BIG-IP that not exposed by OpenShift Routes API or annotations 
 
-**Global ConfigMap**
+**Extended ConfigMap**
 
 ```
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: global-cm
+  name: extended-cm
   namespace: default
   labels:
     f5nr: "true"

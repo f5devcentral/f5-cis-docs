@@ -129,7 +129,7 @@ if __name__ == '__main__':
               "{}".format(args_values['output_dir']))
         print("Extended configmap is generated with namespace same as the CIS deployment.")
         print("NOTE: Make sure this namespace is watched by CIS. If not then modify the namespace field \n"
-              "      in the generated extended configmap as well as the CIS argument --route-spec-configmap \n"
+              "      in the generated extended configmap as well as the CIS argument --extended-spec-configmap \n"
               "      with the correct namespace.\n")
         print("Apply the generated configmap and CIS deployment using the following command:\n")
         print("\tkubectl apply -f {}".format(args_values['output_dir']))

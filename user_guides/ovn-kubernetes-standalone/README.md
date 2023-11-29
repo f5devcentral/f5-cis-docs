@@ -53,7 +53,7 @@ F5 Controller Ingress Services (CIS) called **Next Generation Routes Controller*
 Add the following parameters to the CIS deployment
 
 * Routegroup specific config for each namespace is provided as part of extendedSpec through ConfigMap.
-* ConfigMap info is passed to CIS with argument --route-spec-configmap="namespace/configmap-name"
+* ConfigMap info is passed to CIS with argument --extended-spec-configmap="namespace/configmap-name"
 * Controller mode should be set to openshift to enable multiple VIP support(--controller-mode="openshift")
 
 ```
@@ -69,7 +69,7 @@ args: [
   "--pool-member-type=cluster",
   "--insecure=true",
   "--manage-routes=true",
-  "--route-spec-configmap="kube-system/global-cm"
+  "--extended-spec-configmap="kube-system/extended-cm"
   "--controller-mode="openshift"
   "--as3-validation=true",
   "--log-as3-response=true",
@@ -86,18 +86,18 @@ oc create -f f5-bigip-ctlr-deployment.yaml
 
 CIS [repo](https://github.com/f5devcentral/f5-cis-docs/tree/main/user_guides/ovn-kubernetes-standalone/next-gen-route/cis)
 
-### Step 4: Deploy Global ConfigMap
+### Step 4: Deploy extended ConfigMap
 
-Using Global ConfigMap
+Using extended ConfigMap
 
-* Global ConfigMap provides control to the admin to create and maintain the resource configuration centrally.
+* extended ConfigMap provides control to the admin to create and maintain the resource configuration centrally.
 * namespace: cafe, vserverAddr: 10.192.125.65
 
 ```
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: global-cm
+  name: extended-cm
   namespace: kube-system
   labels:
     f5nr: "true"
@@ -110,7 +110,7 @@ data:
       allowOverride: true
 ```
 
-Deploy global ConfigMap
+Deploy extended ConfigMap
 
 ```
 oc create -f global-cm.yaml
