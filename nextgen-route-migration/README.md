@@ -3,7 +3,7 @@ NextGen Route Migration Tool
 
 This tool helps in migrating from Legacy Routes to nextGenRoutes.
 
-It needs to be provided with the CIS deployment file or deployment resource name, it generates the required ExtendedConfigmap, policyCR(if as3 override configmap file is provided) and CIS 
+It needs to be provided with the CIS deployment file or deployment resource name, it generates the required extended Configmap, policyCR(if as3 override configmap file is provided) and CIS 
 deployment file which can be used to migrate to nextGenRoutes mode.
 
 ### Dependencies
@@ -57,7 +57,7 @@ python main.py --cis_name kube-system/cis-deploy --kubeconfig /home/user/.kube/c
 ```
 python main.py --cis_file ~/cis-deploy.yaml --cm_file ~/as3-cm.yaml
 ```
-**_NOTE:_** _Policy CR would be generated with namespace same as the AS3 configmap and it would be referenced in the global extended configmap_
+**_NOTE:_** _Policy CR would be generated with namespace same as the AS3 configmap and it would be referenced in the extended configmap_
 
 * If you wish to store the output yaml files in any other directory then run the following command (with --output or -o):
 ```
@@ -68,4 +68,4 @@ python main.py --cis_file ~/cis-deploy.yaml --output <path to the output directo
 python main.py -h
 ```
 
-Running this tool will generate the ExtendedConfigmap, policyCR(if as3 override configmap file is provided) and the CIS deployment file in the output directory which needs to be applied in order to migrate to nextGen Routes.
+Running this tool will generate the extended Configmap, policyCR(if as3 override configmap file is provided) and the CIS deployment file in the output directory which needs to be applied in order to migrate to nextGen Routes.

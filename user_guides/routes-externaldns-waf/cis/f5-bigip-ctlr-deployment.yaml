@@ -49,7 +49,7 @@ spec:
               "--pool-member-type=cluster",
               "--log-level=DEBUG",
               "--insecure=true",
-              "--route-spec-configmap=default/global-cm",
+              "--extended-spec-configmap=default/extended-cm",
               "--controller-mode=openshift",
               "--as3-validation=true",
               "--log-as3-response=true",
