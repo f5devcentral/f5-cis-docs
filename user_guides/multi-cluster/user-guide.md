@@ -2,6 +2,9 @@
 
 Today, organizations are increasingly deploying multiple Kubernetes clusters. Deploying multiple Kubernetes clusters can improve availability, isolation and scalability. This user-guide documents how CIS can automate BIP-IP to provide Edge Ingress services for a dev to prod Kubernetes cluster.
 
+**Note:**
+* This user-guide is based on the [F5 CIS 2.4 release] which deploys CIS per each Kubernetes cluster which manages different BIG-IP partitions.With CIS 2.15 release, a single CIS can be deployed to manage apps across multiple clusters. For more information, see [MultiCluster Support](../../multicluster_user_guides/CIS%20HA/README.md).
+
 ## Multi-Cluster Application Architecture
 
 In this user-guide, each cluster runs a full copy of the application. This simple but powerful approach enables an application to be graduated from dev to prod. Future user-guides will focus on multiple availability zones using health-aware global load balancing. Diagram below represents the two clusters in the user-guide. 

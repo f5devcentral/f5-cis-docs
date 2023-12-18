@@ -2,6 +2,9 @@
 
 Today, organizations are increasingly deploying multiple container environment. Deploying multiple environment can improve availability, isolation and scalability. This user-guide demonstrates how F5 Container Ingress Services (CIS) can automate BIP-IP with Nginx Ingress Controller, to provide Ingress services for multiple container environments using DNS failover
 
+**Note:**
+* This user-guide is based on solution which deploys CIS per each Openshift/Kubernetes cluster which manages different BIG-IP partitions.With CIS 2.15 release, a single CIS can be deployed to manage apps across multiple clusters. For more information, see [MultiCluster Support](../../multicluster_user_guides/CIS%20HA/README.md).
+
 ## OpenShift and Kubernetes Container Environments
 
 In this user-guide, we have deployed an OpenShift and Kubernetes container environments running identical applications front-ended by NGINX Ingress Controller. BIG-IP is platform-agnostic, using DNS to distribute traffic between the OpenShift and Kubernetes clusters. This simple but powerful approach enables users the flexibility to complete an container environment proof of concept or migrating applications between environments. Since CIS uses the Kubernetes API the resource definitions for OpenShift and Kubernetes are identical except for the public IPs. Diagram below represents the OpenShift and Kubernetes environments.
