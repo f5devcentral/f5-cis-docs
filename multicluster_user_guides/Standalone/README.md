@@ -32,18 +32,23 @@ kubectl create -f extendedConfigMap.yaml
 ```bash
 kubectl create -f bigip-ctlr-clusterrole.yaml
 ```
-[bigip-ctlr-clusterrole.yaml](../CIS HA/CIS/bigip-ctlr-clusterrole.yaml)
+
+[bigip-ctlr-clusterrole.yaml](https://github.com/f5devcentral/f5-cis-docs/blob/main/multicluster_user_guides/CIS%20HA/CIS/bigip-ctlr-clusterrole.yaml)
+
 2. Create external cluster rbac for remote cluster monitoring. This is required for all external clusters that are monitored by CIS.
 ```bash
 kubectl create -f external-cluster-rbac.yaml
 ```
-[external-cluster-rbac.yaml](../CIS HA/CIS/external-cluster-rbac.yaml)
+[external-cluster-rbac.yaml](https://github.com/f5devcentral/f5-cis-docs/blob/main/multicluster_user_guides/CIS%20HA/CIS/external-cluster-rbac.yaml)
+
 3. Deploy CIS
 ```bash
 kubectl create -f cis-deployment.yaml
 ```
 ### Deploy application cafe in local and external clusters
-cafe repo [cafe](../CIS HA/deployments/cafeone)
+
+cafe repo [cafe](https://github.com/f5devcentral/f5-cis-docs/tree/main/multicluster_user_guides/CIS%20HA/deployments/cafeone)
+
 ```bash
 kubectl create -f name-cafeone.yaml
 kubectl create -f cafe-deployment.yaml
@@ -77,7 +82,7 @@ oc get route -n cafeone
 NAME               HOST/PORT                        PATH      SERVICES     PORT   TERMINATION   WILDCARD
 cafe-coffee-edge   cafeone.example.com ... 1 more   /coffee   coffee-svc   8080                 None
 ```
-Route repo [route](../CIS HA/routes)
+Route repo [route](https://github.com/f5devcentral/f5-cis-docs/tree/main/multicluster_user_guides/CIS%20HA/routes)
 
 ### Results
 Verify pools are created for local cluster and external cluster and pool members are added
