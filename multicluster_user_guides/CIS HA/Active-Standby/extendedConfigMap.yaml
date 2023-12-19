@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    f5nr: "true"
+  name: extended-spec-config
+  namespace: kube-system
+data:
+  extendedSpec: |
+    mode: active-standby
+    highAvailabilityCIS:
+      primaryEndPoint: http://10.145.72.114:8001
+      probeInterval: 30
+      retryInterval: 3
+      primaryCluster:
+        clusterName: cluster1
+        secret: default/primary-cluster
+      secondaryCluster:
+        clusterName: cluster2
+        secret: default/secondary-cluster
+    externalClustersConfig:
+    - clusterName: cluster3
+      secret: default/external-cluster
+    extendedRouteSpec:
+    - allowOverride: false
+      namespace: cafeone
+      vserverAddr: 10.8.0.4
+      vserverName: vs-coffee
