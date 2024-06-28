@@ -90,7 +90,6 @@ Deploy RBAC, schema and F5 IPAM Controller deployment
 
 ```
 kubectl create -f f5-ipam-ctlr-clusterrole.yaml
-kubectl create -f f5-ipam-schema.yaml
 kubectl create -f f5-ipam-deployment.yaml
 ```
 ipam-deployment [repo](https://github.com/f5devcentral/f5-cis-docs/tree/main/user_guides/ipam-infoblox/ipam-deployment)
